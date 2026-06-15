@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BGA · Acte 1 — Mode de jeu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --bg:#f5f0eb; --surface:#ffffff;
+    --ink:#1a1a1a; --ink2:#4a4a4a;
+    --blue:#04a7ff; --blue-d:#164d73; --blue-soft:#E6F1FB;
+    --yellow:#F5C842; --red:#E53935;
+    --shadow:4px 4px 0 0 var(--ink);
+    --shadow-sm:3px 3px 0 0 var(--ink);
+    --shadow-lg:6px 6px 0 0 var(--ink);
+    --r:14px; --pill:99px;
+    --font:'Bricolage Grotesque',system-ui,sans-serif;
+  }
+  html,body{width:100%;height:100%;}
+  body{width:1440px;height:900px;overflow:hidden;position:relative;
+    background:var(--bg);font-family:var(--font);color:var(--ink);display:flex;flex-direction:column;}
+
+  /* ---- header ---- */
+  header{display:flex;align-items:center;justify-content:space-between;padding:22px 56px 0;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand .mark{width:44px;height:44px;background:var(--blue);border:3px solid var(--ink);border-radius:12px;
+    box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;transform:rotate(-5deg);}
+  .brand .name{font-weight:800;font-size:20px;letter-spacing:-.02em;}
+  .brand .name b{color:var(--blue);}
+  .lang{display:inline-flex;border:3px solid var(--ink);border-radius:var(--pill);overflow:hidden;background:#fff;box-shadow:var(--shadow-sm);}
+  .lang button{font-family:var(--font);font-weight:700;font-size:14px;letter-spacing:.04em;padding:9px 18px;border:none;cursor:pointer;background:transparent;color:var(--ink2);transition:background .12s,color .12s;}
+  .lang button.active{background:var(--ink);color:#fff;}
+
+  /* ---- step rail ---- */
+  .rail{display:flex;justify-content:center;gap:8px;padding:16px 0 4px;}
+  .rail .step{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;color:var(--ink2);padding:7px 14px;border:2.5px solid transparent;border-radius:var(--pill);}
+  .rail .step .num{width:22px;height:22px;border-radius:50%;border:2.5px solid var(--ink2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;}
+  .rail .step.done{color:var(--ink);cursor:pointer;transition:transform .12s;}
+  .rail .step.done:hover{transform:translate(-1px,-1px);box-shadow:var(--shadow-sm);}
+  .rail .step.done .num{background:var(--blue);border-color:var(--ink);color:#fff;}
+  .rail .step.active{background:var(--yellow);border-color:var(--ink);color:var(--ink);box-shadow:var(--shadow-sm);}
+  .rail .step.active .num{border-color:var(--ink);background:var(--ink);color:#fff;}
+  .rail .sep{align-self:center;color:#cdc4b6;font-size:18px;}
+
+  /* ---- main ---- */
+  main{flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;max-width:1140px;width:100%;margin:0 auto;padding:6px 56px 0;min-height:0;}
+
+  .head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:6px;}
+  .head-row h1{font-weight:800;font-size:36px;line-height:1.02;letter-spacing:-.02em;}
+  .head-row .sub{font-weight:500;font-size:16px;color:var(--ink2);margin-top:6px;}
+  .mascot-mini{display:flex;align-items:center;gap:14px;flex:none;}
+  .mascot-mini .bubble{position:relative;background:var(--yellow);border:3px solid var(--ink);border-radius:14px;box-shadow:var(--shadow-sm);
+    padding:10px 15px;font-weight:700;font-size:14px;max-width:240px;}
+  .mascot-mini .bubble::after{content:"";position:absolute;right:-15px;top:18px;width:0;height:0;border:9px solid transparent;border-left-color:var(--ink);}
+  .mascot-mini .bubble::before{content:"";position:absolute;right:-9px;top:20px;z-index:1;width:0;height:0;border:7px solid transparent;border-left-color:var(--yellow);}
+
+  .groups{display:flex;flex-direction:column;flex:none;gap:4px;}
+  .group{display:grid;grid-template-columns:230px 1fr;gap:26px;align-items:center;padding:18px 0;}
+  .group + .group{border-top:3px dashed #d9d0c4;}
+  .g-label .gl-top{display:flex;align-items:center;gap:9px;font-weight:800;font-size:19px;letter-spacing:-.01em;white-space:nowrap;}
+  .g-label .gl-top .gi{width:30px;height:30px;border-radius:8px;background:var(--blue);border:2.5px solid var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;}
+  .g-label .gl-help{font-weight:500;font-size:13.5px;color:var(--ink2);margin-top:7px;}
+  .g-label .gl-req{display:inline-block;margin-top:8px;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--blue);}
+
+  .cards{display:flex;gap:14px;}
+  .card{flex:1 1 0;min-width:0;position:relative;display:flex;align-items:center;gap:13px;text-align:left;
+    background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);
+    padding:14px 16px;cursor:pointer;font-family:var(--font);
+    transition:transform .12s,box-shadow .12s,background .12s,color .12s;}
+  .card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 var(--ink);}
+  .card:active{transform:translate(2px,2px);box-shadow:1px 1px 0 0 var(--ink);}
+  .card .ico{width:42px;height:42px;flex:none;border-radius:10px;background:var(--blue-soft);border:2.5px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:23px;transition:background .12s,color .12s;}
+  .card .txt{display:flex;flex-direction:column;min-width:0;}
+  .card .txt .ct{font-weight:800;font-size:15.5px;line-height:1.12;}
+  .card .txt .cs{font-weight:500;font-size:12.5px;color:var(--ink2);margin-top:3px;transition:color .12s;}
+  .card .tick{position:absolute;top:-10px;right:-10px;width:26px;height:26px;border-radius:50%;background:var(--blue);
+    border:2.5px solid var(--ink);color:#fff;display:none;align-items:center;justify-content:center;font-size:15px;box-shadow:var(--shadow-sm);}
+  .card.sel{background:var(--blue);color:#fff;box-shadow:6px 6px 0 0 var(--ink);}
+  .card.sel .ico{background:#fff;color:var(--blue);}
+  .card.sel .cs{color:rgba(255,255,255,.82);}
+  .card.sel .tick{display:flex;}
+
+  /* ---- footer ---- */
+  .footer{display:flex;align-items:center;justify-content:flex-end;gap:24px;padding:16px 0 18px;}
+  .pref{display:flex;align-items:center;gap:12px;}
+  .pref label{font-weight:700;font-size:13px;color:var(--ink2);white-space:nowrap;}
+  .pref .opt{font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#b3aa9b;}
+  .pref .ip{display:flex;align-items:center;gap:9px;background:var(--surface);border:3px solid var(--ink);border-radius:var(--pill);
+    padding:0 16px;box-shadow:var(--shadow-sm);width:300px;}
+  .pref .ip i{font-size:19px;color:var(--blue);}
+  .pref .ip input{border:none;outline:none;background:transparent;font-family:var(--font);font-weight:600;font-size:15px;color:var(--ink);padding:11px 0;flex:1;min-width:0;}
+  .pref .ip input::placeholder{color:#b3aa9b;font-weight:500;}
+
+  .go-wrap{display:flex;align-items:center;gap:16px;}
+  .progress{font-weight:700;font-size:13.5px;color:var(--ink2);display:flex;align-items:center;gap:7px;}
+  .progress i{font-size:17px;}
+  .progress.ok{color:var(--blue);}
+  .cta{display:inline-flex;align-items:center;gap:10px;font-family:var(--font);font-weight:800;font-size:18px;color:#fff;
+    background:var(--blue);border:3px solid var(--ink);border-radius:var(--pill);box-shadow:var(--shadow);padding:15px 34px;cursor:pointer;white-space:nowrap;
+    transition:transform .11s,box-shadow .11s,background .11s;}
+  .cta i{font-size:21px;}
+  .cta:not(:disabled):hover{background:var(--blue-d);}
+  .cta:not(:disabled):active{transform:translate(4px,4px);box-shadow:0 0 0 0 var(--ink);}
+  .cta:disabled{background:#cfc6b8;cursor:not-allowed;}
+
+  .zig{position:absolute;left:0;right:0;bottom:0;height:26px;z-index:1;background:var(--blue);
+    -webkit-mask:linear-gradient(135deg,#000 50%,transparent 0) repeat-x 0 0/26px 26px,linear-gradient(-135deg,#000 50%,transparent 0) repeat-x 0 0/26px 26px;
+    mask:linear-gradient(135deg,#000 50%,transparent 0) repeat-x 0 0/26px 26px,linear-gradient(-135deg,#000 50%,transparent 0) repeat-x 0 0/26px 26px;}
+
+  .mascot-mini svg{width:64px;flex:none;}
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand"><img src="assets/logo.svg" alt="Boardgame Arena" style="height:42px;width:auto;display:block;" /></div>
+    <div class="lang" id="lang"><button data-lang="fr" class="active">FR</button><button data-lang="en">EN</button></div>
+  </header>
+
+  <nav class="rail">
+    <span class="step done" data-href="accueil.html" title="Revenir à l'accueil"><span class="num"><i class="ti ti-check"></i></span><span data-i18n="r0">Accueil</span></span>
+    <span class="sep"><i class="ti ti-chevron-right"></i></span>
+    <span class="step active"><span class="num">1</span><span data-i18n="r1">Préférences</span></span>
+    <span class="sep"><i class="ti ti-chevron-right"></i></span>
+    <span class="step"><span class="num">2</span><span data-i18n="r2">Personnalité</span></span>
+    <span class="sep"><i class="ti ti-chevron-right"></i></span>
+    <span class="step"><span class="num">3</span><span data-i18n="r3">Profil</span></span>
+  </nav>
+
+  <main>
+    <div class="head-row">
+      <div>
+        <h1 data-i18n="head">Comment tu aimes jouer&nbsp;?</h1>
+        <div class="sub" data-i18n="sub">Trois réglages pour calibrer ton catalogue. Choisis ce qui te ressemble.</div>
+      </div>
+    </div>
+
+    <div class="groups" id="groups"></div>
+
+    <div class="footer">
+      <div class="go-wrap">
+        <span class="progress" id="progress"><i class="ti ti-circle-dashed"></i><span id="progress-txt">0/3</span></span>
+        <button class="cta" id="go" disabled><span data-i18n="cta">Continuer</span><i class="ti ti-arrow-up-right"></i></button>
+      </div>
+    </div>
+  </main>
+
+  
+
+<template id="mascot-tpl">
+<svg viewBox="0 0 200 230" aria-hidden="true">
+  <ellipse cx="104" cy="214" rx="60" ry="10" fill="#1a1a1a" opacity=".18"/>
+  <rect x="72" y="168" width="20" height="42" rx="10" fill="#04a7ff" stroke="#1a1a1a" stroke-width="5"/>
+  <rect x="108" y="168" width="20" height="42" rx="10" fill="#04a7ff" stroke="#1a1a1a" stroke-width="5"/>
+  <g class="wave"><rect x="22" y="92" width="20" height="56" rx="10" fill="#04a7ff" stroke="#1a1a1a" stroke-width="5" transform="rotate(28 40 120)"/></g>
+  <rect x="158" y="108" width="20" height="54" rx="10" fill="#04a7ff" stroke="#1a1a1a" stroke-width="5" transform="rotate(-14 168 134)"/>
+  <rect x="44" y="60" width="112" height="116" rx="28" fill="#04a7ff" stroke="#1a1a1a" stroke-width="6"/>
+  <circle cx="74" cy="150" r="5.5" fill="#F5C842"/><circle cx="126" cy="150" r="5.5" fill="#F5C842"/>
+  <circle cx="80" cy="104" r="17" fill="#fff" stroke="#1a1a1a" stroke-width="5"/>
+  <circle cx="120" cy="104" r="17" fill="#fff" stroke="#1a1a1a" stroke-width="5"/>
+  <circle class="pupil" cx="84" cy="107" r="7" fill="#1a1a1a"/><circle class="pupil" cx="124" cy="107" r="7" fill="#1a1a1a"/>
+  <path d="M82 132 q18 16 36 0" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="62" cy="126" r="6" fill="#E53935" opacity=".5"/><circle cx="138" cy="126" r="6" fill="#E53935" opacity=".5"/>
+  <rect x="86" y="22" width="38" height="38" rx="11" fill="#F5C842" stroke="#1a1a1a" stroke-width="5" transform="rotate(-12 105 41)"/>
+  <circle cx="98" cy="35" r="3.4" fill="#1a1a1a"/><circle cx="112" cy="47" r="3.4" fill="#1a1a1a"/>
+</svg>
+</template>
+
+<style>
+  @keyframes wavehand{0%,70%,100%{transform:rotate(0deg);}80%,90%{transform:rotate(-16deg);}}
+  .wave{transform-origin:54px 120px;}
+  @media (prefers-reduced-motion:no-preference){.wave{animation:wavehand 2.8s ease-in-out infinite;}}
+</style>
+
+<script>
+  const GROUPS=[
+    {id:'temps',icon:'clock-hour-4',label:{fr:'Temps dispo',en:'Time available'},help:{fr:'Combien de temps tu veux y passer ?',en:'How long do you want to play?'},
+      options:[
+        {v:'rapide',icon:'bolt',t:{fr:'Rapide',en:'Quick'},s:{fr:'Moins de 30 min',en:'Under 30 min'}},
+        {v:'moyen',icon:'clock',t:{fr:'Moyen',en:'Medium'},s:{fr:'30 – 60 min',en:'30 – 60 min'}},
+        {v:'long',icon:'hourglass',t:{fr:'Long',en:'Long'},s:{fr:'Plus de 60 min',en:'60 min +'}},
+      ]},
+    {id:'type',icon:'puzzle',label:{fr:'Type de jeu',en:'Game type'},help:{fr:'La mécanique qui te fait vibrer.',en:'The mechanic you love most.'},
+      options:[
+        {v:'strategie',icon:'chess',t:{fr:'Stratégie',en:'Strategy'},s:{fr:'Réflexion, plans',en:'Planning, depth'}},
+        {v:'hasard',icon:'dice-5',t:{fr:'Hasard',en:'Luck'},s:{fr:'Dés & cartes',en:'Dice & cards'}},
+        {v:'cooperatif',icon:'users-group',t:{fr:'Coopératif',en:'Co-op'},s:{fr:'Tous ensemble',en:'All together'}},
+        {v:'bluff',icon:'mask',t:{fr:'Bluff',en:'Bluff'},s:{fr:'Mensonge & ruse',en:'Lies & wits'}},
+      ]},
+    {id:'mode',icon:'device-gamepad-2',label:{fr:'Mode',en:'Mode'},help:{fr:'Avec qui tu veux jouer ?',en:'Who do you play with?'},
+      options:[
+        {v:'solo',icon:'user',t:{fr:'Solo',en:'Solo'},s:{fr:'Juste toi',en:'Just you'}},
+        {v:'amis',icon:'users',t:{fr:'Avec amis',en:'With friends'},s:{fr:'Table privée',en:'Private table'}},
+        {v:'public',icon:'trophy',t:{fr:'Compétitif',en:'Competitive'},s:{fr:'Arène publique',en:'Public arena'}},
+      ]},
+  ];
+
+  const I18N={
+    fr:{r0:'Accueil',r1:'Préférences',r2:'Personnalité',r3:'Profil',
+      head:'Comment tu aimes jouer&nbsp;?',sub:'Trois réglages pour calibrer ton catalogue. Choisis ce qui te ressemble.',
+      bubble:'Montre-moi ton style de jeu&nbsp;!',bubbleName:'Alors {n}, tu joues comment&nbsp;?',bubbleDone:'Parfait, {n} — on a tout&nbsp;!',bubbleDoneAnon:'Parfait — on a tout&nbsp;!',
+      favLabel:'Ton jeu préféré',opt:'optionnel',favPh:'Ex : Catan, 7 Wonders…',
+      cta:'Continuer',done:'fait'},
+    en:{r0:'Welcome',r1:'Preferences',r2:'Personality',r3:'Profile',
+      head:'How do you like to play?',sub:'Three quick settings to tune your catalog. Pick what feels like you.',
+      bubble:'Show me your play style!',bubbleName:'So {n}, how do you play?',bubbleDone:'Perfect, {n} — all set!',bubbleDoneAnon:'Perfect — all set!',
+      favLabel:'Your favourite game',opt:'optional',favPh:'e.g. Catan, 7 Wonders…',
+      cta:'Continue',done:'done'}
+  };
+
+  let lang='fr';
+  const sel={};
+  const groupsEl=document.getElementById('groups'),go=document.getElementById('go'),
+        bubble=null,progress=document.getElementById('progress'),
+        progressTxt=document.getElementById('progress-txt');
+  function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+  function nickname(){try{return (localStorage.getItem('bga_nick')||'').trim();}catch(e){return '';}}
+
+  function buildGroups(){
+    groupsEl.innerHTML='';
+    GROUPS.forEach(g=>{
+      const row=document.createElement('div');row.className='group';row.dataset.group=g.id;
+      const lab=document.createElement('div');lab.className='g-label';
+      lab.innerHTML=`<div class="gl-top"><span class="gi"><i class="ti ti-${g.icon}"></i></span><span data-gl="label"></span></div>
+                     <div class="gl-help" data-gl="help"></div>`;
+      const cards=document.createElement('div');cards.className='cards';
+      g.options.forEach(o=>{
+        const c=document.createElement('button');c.type='button';c.className='card';c.dataset.val=o.v;
+        c.innerHTML=`<span class="ico"><i class="ti ti-${o.icon}"></i></span>
+                     <span class="txt"><span class="ct" data-c="t"></span><span class="cs" data-c="s"></span></span>
+                     <span class="tick"><i class="ti ti-check"></i></span>`;
+        c.addEventListener('click',()=>{
+          sel[g.id]=o.v;
+          [...cards.children].forEach(x=>x.classList.toggle('sel',x===c));
+          update();
+        });
+        cards.appendChild(c);
+      });
+      row.appendChild(lab);row.appendChild(cards);groupsEl.appendChild(row);
+    });
+    paintText();
+  }
+
+  function paintText(){
+    const d=I18N[lang];
+    document.documentElement.lang=lang;
+    document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(d[k]!=null)el.innerHTML=d[k];});
+    document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.getAttribute('data-i18n-ph');if(d[k]!=null)el.placeholder=d[k];});
+    GROUPS.forEach(g=>{
+      const row=groupsEl.querySelector(`.group[data-group="${g.id}"]`);
+      row.querySelector('[data-gl="label"]').textContent=g.label[lang];
+      row.querySelector('[data-gl="help"]').textContent=g.help[lang];
+      g.options.forEach(o=>{
+        const c=row.querySelector(`.card[data-val="${o.v}"]`);
+        c.querySelector('[data-c="t"]').textContent=o.t[lang];
+        c.querySelector('[data-c="s"]').textContent=o.s[lang];
+      });
+    });
+  }
+
+  function update(){
+    const d=I18N[lang];
+    const n=GROUPS.filter(g=>sel[g.id]).length, all=n===GROUPS.length, name=nickname();
+    go.disabled=!all;
+    progressTxt.textContent=n+'/'+GROUPS.length;
+    progress.classList.toggle('ok',all);
+    progress.querySelector('i').className = all?'ti ti-circle-check-filled':'ti ti-circle-dashed';
+    if(bubble){if(all) bubble.innerHTML=name?d.bubbleDone.replace('{n}',esc(name)):d.bubbleDoneAnon;
+    else bubble.innerHTML=name?d.bubbleName.replace('{n}',esc(name)):d.bubble;}
+  }
+
+  document.querySelectorAll('#lang button').forEach(b=>b.addEventListener('click',()=>{
+    lang=b.dataset.lang;document.querySelectorAll('#lang button').forEach(x=>x.classList.toggle('active',x===b));
+    paintText();update();try{localStorage.setItem('bga_lang',lang);}catch(e){}}));
+
+  go.addEventListener('click',()=>{
+    try{localStorage.setItem('bga_prefs',JSON.stringify({...sel}));}catch(e){}
+    window.location.href='acte-2.html';
+  });
+
+  document.querySelectorAll('.rail .step[data-href]').forEach(s=>
+    s.addEventListener('click',()=>{window.location.href=s.dataset.href;}));
+
+  try{lang=localStorage.getItem('bga_lang')||'fr';
+    document.querySelectorAll('#lang button').forEach(x=>x.classList.toggle('active',x.dataset.lang===lang));}catch(e){}
+  buildGroups();update();
+</script>
+</body>
+</html>

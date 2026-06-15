@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BGA · Acte 3 — Ton profil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --bg:#f5f0eb; --surface:#ffffff;
+    --ink:#1a1a1a; --ink2:#4a4a4a;
+    --blue:#04a7ff; --blue-d:#164d73;
+    --yellow:#F5C842; --red:#E53935;
+    /* profil Socialiser */
+    --p:#378ADD; --p-soft:#E6F1FB; --p-text:#0C447C;
+    --shadow:4px 4px 0 0 var(--ink);
+    --shadow-sm:3px 3px 0 0 var(--ink);
+    --shadow-lg:6px 6px 0 0 var(--ink);
+    --r:14px; --pill:99px;
+    --font:'Bricolage Grotesque',system-ui,sans-serif;
+  }
+  html,body{width:100%;height:100%;}
+  body{width:1440px;height:900px;overflow:hidden;position:relative;
+    background:var(--bg);font-family:var(--font);color:var(--ink);display:flex;flex-direction:column;}
+
+  header{display:flex;align-items:center;justify-content:space-between;padding:22px 56px 0;z-index:6;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand .mark{width:44px;height:44px;background:var(--blue);border:3px solid var(--ink);border-radius:12px;
+    box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;transform:rotate(-5deg);}
+  .brand .name{font-weight:800;font-size:20px;letter-spacing:-.02em;}
+  .brand .name b{color:var(--blue);}
+  .lang{display:inline-flex;border:3px solid var(--ink);border-radius:var(--pill);overflow:hidden;background:#fff;box-shadow:var(--shadow-sm);}
+  .lang button{font-family:var(--font);font-weight:700;font-size:14px;letter-spacing:.04em;padding:9px 18px;border:none;cursor:pointer;background:transparent;color:var(--ink2);transition:background .12s,color .12s;}
+  .lang button.active{background:var(--ink);color:#fff;}
+
+  .rail{display:flex;justify-content:center;gap:8px;padding:14px 0 2px;z-index:6;}
+  .rail .step{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;color:var(--ink2);padding:7px 14px;border:2.5px solid transparent;border-radius:var(--pill);}
+  .rail .step .num{width:22px;height:22px;border-radius:50%;border:2.5px solid var(--ink2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;}
+  .rail .step.done{color:var(--ink);cursor:pointer;transition:transform .12s;}
+  .rail .step.done:hover{transform:translate(-1px,-1px);}
+  .rail .step.done .num{background:var(--blue);border-color:var(--ink);color:#fff;}
+  .rail .step.active{background:var(--yellow);border-color:var(--ink);color:var(--ink);box-shadow:var(--shadow-sm);}
+  .rail .step.active .num{border-color:var(--ink);background:var(--ink);color:#fff;}
+  .rail .sep{align-self:center;color:#cdc4b6;font-size:18px;}
+
+  main{flex:1;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;}
+
+  .panel{position:relative;width:760px;background:var(--surface);border:3px solid var(--ink);border-radius:26px;
+    box-shadow:var(--shadow-lg);padding:34px 56px 30px;text-align:center;}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;
+    color:var(--p-text);background:var(--p-soft);border:2.5px solid var(--ink);box-shadow:var(--shadow-sm);
+    padding:8px 18px;border-radius:var(--pill);margin-bottom:16px;}
+
+  /* avatar */
+  .avatar{position:relative;width:150px;height:150px;margin:0 auto 6px;}
+  .avatar .disc{width:150px;height:150px;border-radius:50%;background:var(--p-soft);border:3px solid var(--ink);
+    box-shadow:var(--shadow);display:flex;align-items:flex-end;justify-content:center;overflow:hidden;}
+  .avatar svg{width:132px;}
+  .ring{position:absolute;border:3px solid var(--ink);border-radius:50%;background:var(--p);width:40px;height:40px;
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;box-shadow:var(--shadow-sm);}
+  .ring.r1{top:-6px;right:8px;background:var(--yellow);color:var(--ink);}
+  .ring.r2{bottom:6px;left:-8px;}
+
+  .lead{font-weight:600;font-size:18px;color:var(--ink2);margin-top:10px;}
+  .lead b{color:var(--ink);font-weight:800;}
+  h1{font-weight:800;font-size:52px;line-height:1.0;letter-spacing:-.03em;margin:2px 0 4px;color:var(--p);}
+  .alias{font-weight:700;font-size:17px;color:var(--p-text);letter-spacing:.01em;margin-bottom:14px;}
+  .desc{font-weight:500;font-size:16.5px;line-height:1.5;color:var(--ink2);max-width:52ch;margin:0 auto 20px;text-wrap:pretty;}
+
+  .traits{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;}
+  .trait{background:var(--p-soft);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);
+    padding:14px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;min-height:142px;justify-content:flex-start;}
+  .trait .ti-ico{width:46px;height:46px;flex:none;border-radius:12px;background:var(--p);border:2.5px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;}
+  .trait .tt{display:block;width:100%;text-align:center;font-weight:800;font-size:15px;line-height:1.15;color:var(--ink);}
+  .trait .ts{display:block;width:100%;text-align:center;font-weight:500;font-size:12.5px;color:var(--p-text);line-height:1.32;}
+
+  .cta{display:inline-flex;align-items:center;gap:11px;font-family:var(--font);font-weight:800;font-size:20px;color:#fff;
+    background:var(--blue);border:3px solid var(--ink);border-radius:var(--pill);box-shadow:var(--shadow);padding:17px 42px;cursor:pointer;white-space:nowrap;
+    transition:transform .11s,box-shadow .11s,background .11s;}
+  .cta i{font-size:23px;}
+  .cta:hover{background:var(--blue-d);}
+  .cta:active{transform:translate(4px,4px);box-shadow:0 0 0 0 var(--ink);}
+  .retake{display:block;margin:12px auto 0;background:none;border:none;font-family:var(--font);font-weight:700;font-size:13.5px;
+    color:var(--ink2);cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+  .retake:hover{color:var(--ink);}
+
+  /* confetti */
+  .confetti{position:absolute;z-index:1;border:2.5px solid var(--ink);}
+  .zig{position:absolute;left:0;right:0;bottom:0;height:26px;z-index:1;background:var(--p);
+    -webkit-mask:linear-gradient(135deg,#000 50%,transparent 0) repeat-x 0 0/26px 26px,linear-gradient(-135deg,#000 50%,transparent 0) repeat-x 0 0/26px 26px;
+    mask:linear-gradient(135deg,#000 50%,transparent 0) repeat-x 0 0/26px 26px,linear-gradient(-135deg,#000 50%,transparent 0) repeat-x 0 0/26px 26px;}
+
+  /* Subtle, SAFE entrance: content is always visible (base state).
+     A gentle pop runs once via CSS animation; even if the animation clock
+     is frozen, fill-mode:none means the visible base style applies. */
+  @media (prefers-reduced-motion:no-preference){
+    .panel{animation:popin .5s cubic-bezier(.2,1.2,.4,1);}
+    .avatar{animation:popin .55s .1s cubic-bezier(.2,1.4,.5,1);}
+  }
+  @keyframes popin{from{transform:scale(.94);}to{transform:scale(1);}}
+  @keyframes fall{from{opacity:0;transform:translateY(-40px) rotate(0);}to{opacity:1;}}
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand"><img src="assets/logo.svg" alt="Boardgame Arena" style="height:42px;width:auto;display:block;" /></div>
+    <div class="lang" id="lang"><button data-lang="fr" class="active">FR</button><button data-lang="en">EN</button></div>
+  </header>
+
+  <nav class="rail">
+    <span class="step done" data-href="accueil.html"><span class="num"><i class="ti ti-check"></i></span><span data-i18n="r0">Accueil</span></span>
+    <span class="sep"><i class="ti ti-chevron-right"></i></span>
+    <span class="step done" data-href="acte-1.html"><span class="num"><i class="ti ti-check"></i></span><span data-i18n="r1">Préférences</span></span>
+    <span class="sep"><i class="ti ti-chevron-right"></i></span>
+    <span class="step done" data-href="acte-2.html"><span class="num"><i class="ti ti-check"></i></span><span data-i18n="r2">Personnalité</span></span>
+    <span class="sep"><i class="ti ti-chevron-right"></i></span>
+    <span class="step active"><span class="num">4</span><span data-i18n="r3">Profil</span></span>
+  </nav>
+
+  <main>
+    <div class="panel">
+      <span class="eyebrow"><i class="ti ti-sparkles"></i><span data-i18n="eyebrow">Ton profil de joueur</span></span>
+
+      <div class="avatar">
+        <div class="disc" id="avatar-slot"></div>
+        <span class="ring r1"><i class="ti ti-heart"></i></span>
+        <span class="ring r2"><i class="ti ti-messages"></i></span>
+      </div>
+
+      <div class="lead" data-i18n-html="lead"><b>Joueur</b>, tu es&nbsp;:</div>
+      <h1 data-i18n="profile">Le Sociable</h1>
+      <div class="alias" data-i18n="alias">Le Socialiser · Tu joues pour les autres</div>
+      <p class="desc" data-i18n="desc">Pour toi, une partie réussie, c'est avant tout du monde autour de la table. Tu crées du lien, tu invites, tu négocies — l'ambiance compte autant que la victoire.</p>
+
+      <div class="traits" id="traits"></div>
+
+      <button class="cta" id="go"><span data-i18n="cta">Voir mon catalogue</span><i class="ti ti-arrow-up-right"></i></button>
+      <button class="retake" id="retake" data-i18n="retake">Refaire le test de personnalité</button>
+    </div>
+  </main>
+
+  
+
+<!-- avatars are generated dynamically in JS (one per profile) -->
+
+<script>
+  /* ---- avatar SVGs, one per profile (color baked from profile principal) ---- */
+  function avatar(key,c){
+    const head=`<circle cx="100" cy="90" r="46" fill="#fff" stroke="#1a1a1a" stroke-width="6"/>`;
+    const body=`<path d="M34 196 q0 -64 66 -64 q66 0 66 64 Z" fill="${c}" stroke="#1a1a1a" stroke-width="6"/>
+                <path d="M78 138 q22 26 44 0" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>`;
+    const cheeks=`<circle cx="72" cy="102" r="6" fill="#E53935" opacity=".5"/><circle cx="128" cy="102" r="6" fill="#E53935" opacity=".5"/>`;
+    const parts={
+      socialiser:`${body}${head}
+        <path d="M58 74 q10 -42 60 -34 q26 6 26 26 q-30 -18 -86 8 Z" fill="#1a1a1a"/>
+        <circle cx="84" cy="90" r="6" fill="#1a1a1a"/><circle cx="116" cy="90" r="6" fill="#1a1a1a"/>
+        <path d="M80 106 q20 22 40 0" fill="none" stroke="#1a1a1a" stroke-width="6" stroke-linecap="round"/>${cheeks}`,
+      achiever:`${body}${head}
+        <path d="M70 56 L82 70 L100 50 L118 70 L130 56 L126 78 L74 78 Z" fill="#F5C842" stroke="#1a1a1a" stroke-width="5" stroke-linejoin="round"/>
+        <circle cx="100" cy="62" r="3.4" fill="#1a1a1a"/>
+        <path d="M74 84 l17 6" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round"/>
+        <path d="M126 84 l-17 6" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="85" cy="95" r="6" fill="#1a1a1a"/><circle cx="115" cy="95" r="6" fill="#1a1a1a"/>
+        <path d="M82 112 q18 12 36 1" fill="none" stroke="#1a1a1a" stroke-width="6" stroke-linecap="round"/>${cheeks}`,
+      philanthropist:`${body}${head}
+        <path d="M56 80 q4 -46 44 -46 q40 0 44 46 q-44 -22 -88 0 Z" fill="#1a1a1a"/>
+        <circle cx="84" cy="90" r="6" fill="#1a1a1a"/><circle cx="116" cy="90" r="6" fill="#1a1a1a"/>
+        <path d="M80 105 q20 20 40 0" fill="none" stroke="#1a1a1a" stroke-width="6" stroke-linecap="round"/>${cheeks}
+        <path d="M100 170 q-7 -10 -16 -3 q-7 6 16 22 q23 -16 16 -22 q-9 -7 -16 3 z" fill="#fff" stroke="#1a1a1a" stroke-width="4.5" stroke-linejoin="round"/>`,
+      freespirit:`${body}${head}
+        <path d="M55 80 q4 -46 47 -42 q30 3 31 23 q5 -1 9 4 q-44 -24 -87 15 Z" fill="#1a1a1a"/>
+        <circle cx="84" cy="92" r="6" fill="#1a1a1a"/>
+        <path d="M109 92 q7 -7 14 0" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round"/>
+        <path d="M80 106 q20 21 40 0" fill="none" stroke="#1a1a1a" stroke-width="6" stroke-linecap="round"/>${cheeks}
+        <path d="M152 50 l3.6 9.4 9.4 3.6 -9.4 3.6 -3.6 9.4 -3.6 -9.4 -9.4 -3.6 9.4 -3.6 z" fill="#F5C842" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round"/>`
+    };
+    return `<svg viewBox="0 0 200 200" aria-hidden="true">${parts[key]||parts.socialiser}</svg>`;
+  }
+
+  /* ---- the 4 player profiles ---- */
+  const PROFILES={
+    socialiser:{p:'#378ADD',soft:'#E6F1FB',text:'#0C447C',rings:['heart','messages'],
+      name:{fr:'Le Sociable',en:'The Connector'},
+      alias:{fr:'Le Socialiser · Tu joues pour les autres',en:'The Socialiser · You play for others'},
+      desc:{fr:"Pour toi, une partie réussie, c'est avant tout du monde autour de la table. Tu crées du lien, tu invites, tu négocies — l'ambiance compte autant que la victoire.",
+            en:"For you, a great game is first about the people around the table. You build bonds, you invite, you negotiate — the vibe matters as much as the win."},
+      traits:[
+        {icon:'users-group',t:{fr:'Tisseur de liens',en:'Bridge-builder'},s:{fr:'Tu rassembles autour de la table',en:'You gather people at the table'}},
+        {icon:'door-enter',t:{fr:'Hôte né',en:'Natural host'},s:{fr:'Parties ouvertes, amis bienvenus',en:'Open tables, friends welcome'}},
+        {icon:'messages',t:{fr:'Fin négociateur',en:'Smooth negotiator'},s:{fr:"Les alliances, c'est ton terrain",en:'Alliances are your turf'}}]},
+    achiever:{p:'#EF9F27',soft:'#FAEEDA',text:'#633806',rings:['trophy','flame'],
+      name:{fr:'Le Compétiteur',en:'The Achiever'},
+      alias:{fr:"L'Achiever · Tu joues pour gagner",en:'The Achiever · You play to win'},
+      desc:{fr:"Tu joues pour gagner et progresser. Tu analyses, tu optimises, tu cherches le défi maximum. Stats, win rate et trophées sont tes meilleurs alliés.",
+            en:"You play to win and improve. You analyse, you optimise, you chase the toughest challenge. Stats, win rate and trophies are your best allies."},
+      traits:[
+        {icon:'chart-arcs',t:{fr:'Stratège né',en:'Born strategist'},s:{fr:'Tu optimises chaque coup',en:'You optimise every move'}},
+        {icon:'trophy',t:{fr:'Chasseur de trophées',en:'Trophy hunter'},s:{fr:"Le classement global t'appelle",en:'The global ranking calls you'}},
+        {icon:'flame',t:{fr:'Esprit de compétition',en:'Competitive edge'},s:{fr:'Le défi max, toujours',en:'Always the toughest challenge'}}]},
+    philanthropist:{p:'#13CC63',soft:'#E1F5EE',text:'#085041',rings:['heart-handshake','school'],
+      name:{fr:'Le Bâtisseur',en:'The Philanthropist'},
+      alias:{fr:'Le Philanthropist · Tu joues pour transmettre',en:'The Philanthropist · You play to give back'},
+      desc:{fr:"Tu joues pour partager et transmettre. Tu guides les débutants, tu laisses des avis, tu complètes ta collection. Le mentorat et la maîtrise te récompensent.",
+            en:"You play to share and pass it on. You guide newcomers, you leave reviews, you complete your collection. Mentorship and mastery are your rewards."},
+      traits:[
+        {icon:'school',t:{fr:'Mentor',en:'Mentor'},s:{fr:'Tu guides les débutants',en:'You guide newcomers'}},
+        {icon:'books',t:{fr:'Collectionneur',en:'Collector'},s:{fr:"Ta collection s'agrandit",en:'Your collection keeps growing'}},
+        {icon:'star',t:{fr:'Voix de la commu',en:'Community voice'},s:{fr:'Tes avis font autorité',en:'Your reviews carry weight'}}]},
+    freespirit:{p:'#986AF3',soft:'#EEEDFE',text:'#26215C',rings:['sparkles','compass'],
+      name:{fr:"L'Explorateur",en:'The Free Spirit'},
+      alias:{fr:'Le Free Spirit · Tu joues pour découvrir',en:'The Free Spirit · You play to discover'},
+      desc:{fr:"Tu joues pour découvrir. Tu cherches les nouveautés, les mécaniques inédites, les jeux qui buzzent. L'originalité et la surprise sont ton carburant.",
+            en:"You play to discover. You seek out new releases, fresh mechanics, the games everyone's talking about. Originality and surprise are your fuel."},
+      traits:[
+        {icon:'compass',t:{fr:'Chasseur de nouveautés',en:'Novelty seeker'},s:{fr:"Les sorties récentes d'abord",en:'New releases first'}},
+        {icon:'arrows-shuffle',t:{fr:'Touche-à-tout',en:'Jack of all games'},s:{fr:'Tu essaies tout',en:'You try everything'}},
+        {icon:'bulb',t:{fr:'Curieux insatiable',en:'Endlessly curious'},s:{fr:'Les mécaniques inédites',en:'The mechanics no one knows'}}]}
+  };
+
+  const I18N={
+    fr:{r0:'Accueil',r1:'Préférences',r2:'Personnalité',r3:'Profil',
+      eyebrow:'Ton profil de joueur',lead:'<b>{n}</b>, tu es&nbsp;:',leadAnon:'Tu es&nbsp;:',
+      cta:'Voir mon catalogue',retake:'Refaire le test de personnalité'},
+    en:{r0:'Welcome',r1:'Preferences',r2:'Personality',r3:'Profile',
+      eyebrow:'Your player profile',lead:'<b>{n}</b>, you are:',leadAnon:'You are:',
+      cta:'See my catalog',retake:'Retake the personality test'}
+  };
+
+  // which profile? priority: ?p= override (preview) → Acte 2 result → default
+  function currentProfile(){
+    const q=new URLSearchParams(location.search).get('p');
+    if(q && PROFILES[q]) return q;
+    try{const s=localStorage.getItem('bga_profile'); if(s && PROFILES[s]) return s;}catch(e){}
+    return 'socialiser';
+  }
+
+  let lang='fr';
+  let profKey=currentProfile();
+  const traitsEl=document.getElementById('traits'),go=document.getElementById('go'),retake=document.getElementById('retake'),
+        avatarSlot=document.getElementById('avatar-slot'),
+        ring1=document.querySelector('.ring.r1 i'),ring2=document.querySelector('.ring.r2 i');
+  function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+  function nickname(){try{return (localStorage.getItem('bga_nick')||'').trim();}catch(e){return '';}}
+
+  function applyTheme(){
+    const P=PROFILES[profKey], rs=document.documentElement.style;
+    rs.setProperty('--p',P.p); rs.setProperty('--p-soft',P.soft); rs.setProperty('--p-text',P.text);
+    avatarSlot.innerHTML=avatar(profKey,P.p);
+    ring1.className='ti ti-'+P.rings[0];
+    ring2.className='ti ti-'+P.rings[1];
+    // build trait shells
+    traitsEl.innerHTML='';
+    P.traits.forEach(()=>{const el=document.createElement('div');el.className='trait';
+      el.innerHTML='<span class="ti-ico"><i></i></span><span class="tt"></span><span class="ts"></span>';
+      traitsEl.appendChild(el);});
+  }
+
+  function paint(){
+    const d=I18N[lang], P=PROFILES[profKey], name=nickname();
+    document.documentElement.lang=lang;
+    document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(d[k]!=null)el.innerHTML=d[k];});
+    document.querySelector('[data-i18n-html="lead"]').innerHTML=name?d.lead.replace('{n}',esc(name)):d.leadAnon;
+    document.querySelector('h1').textContent=P.name[lang];
+    document.querySelector('.alias').textContent=P.alias[lang];
+    document.querySelector('.desc').textContent=P.desc[lang];
+    [...traitsEl.children].forEach((el,i)=>{
+      el.querySelector('.ti-ico i').className='ti ti-'+P.traits[i].icon;
+      el.querySelector('.tt').textContent=P.traits[i].t[lang];
+      el.querySelector('.ts').textContent=P.traits[i].s[lang];
+    });
+  }
+
+  document.querySelectorAll('#lang button').forEach(b=>b.addEventListener('click',()=>{
+    lang=b.dataset.lang;document.querySelectorAll('#lang button').forEach(x=>x.classList.toggle('active',x===b));
+    paint();try{localStorage.setItem('bga_lang',lang);}catch(e){}}));
+  document.querySelectorAll('.rail .step[data-href]').forEach(s=>
+    s.addEventListener('click',()=>{window.location.href=s.dataset.href;}));
+
+  go.addEventListener('click',()=>{
+    try{localStorage.setItem('bga_profile',profKey);}catch(e){}
+    window.location.href='catalogue.html';
+  });
+  retake.addEventListener('click',()=>{window.location.href='acte-2.html';});
+
+  try{lang=localStorage.getItem('bga_lang')||'fr';
+    document.querySelectorAll('#lang button').forEach(x=>x.classList.toggle('active',x.dataset.lang===lang));}catch(e){}
+  applyTheme();paint();
+</script>
+</body>
+</html>
