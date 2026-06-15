@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Boardgame Arena</title>
+<meta http-equiv="refresh" content="0; url=accueil.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&display=swap" rel="stylesheet" />
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{font-family:'Bricolage Grotesque',sans-serif;background:#f5f0eb;color:#1a1a1a;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;padding:24px;}
+  .logo{font-weight:800;font-size:46px;letter-spacing:-.02em;color:#04a7ff;}
+  .spin{width:42px;height:42px;border-radius:50%;border:4px solid #1a1a1a;border-top-color:transparent;animation:r .8s linear infinite;}
+  @keyframes r{to{transform:rotate(360deg);}}
+  a{color:#04a7ff;font-weight:700;text-decoration:none;}
+  .sub{font-weight:500;color:#4a4a4a;font-size:15px;}
+</style>
+</head>
+<body>
+  <div class="logo">BGA</div>
+  <div class="spin"></div>
+  <p class="sub">Chargement… <a href="accueil.html">Entrer</a></p>
+  <script>location.replace('accueil.html');</script>
+</body>
+</html>
